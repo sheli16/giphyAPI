@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <title>GIPHY</title>
+</head>
+
+<body>  
+    <div id="buttons">
+        
+        <button talkshow-host="donahue">donahue</button>
+        <button talkshow-host="oprah">oprah</button>
+         </div>
+    
+     <div id= "input">
+     <form>
+        <label for ="userinput"> Add a new talk show host here</label>
+        <input type= "text" id="host-input"><br>
+        <input id= "addhost" type="submit" value="add a talkshow host"><br>
+        </div>
+        </form>
+<div id="gif_hostsview">
+
+</div>
+<script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
+<script type="text/javascript">
+    
+   
+// declare my array of show hosts
+
+    var talkhosts = ['oprah', 'geraldo', 'steve harvey', 'ricky lake'];
+
+
+// Display talkshow Gifs
+
+
+function renderbuttons()
+$(#gif_hostsview).empty();
+for (var i = 0; i < talkshosts.length;i++){
+//create begining and end tag for button    
+    var a =$'<button>'
+//added a class
+    a.addclass('Newname')
+//added data attribute
+    a.attr('data-name',talkhosts[i]);
+//initial buttontext
+    a.text(movies[i]);
+}
+
+
+
+    $('button').on('click', function() {
+        var p = $(this).data('person');
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + p + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+        $.ajax({
+                url: queryURL,
+                method: 'GET'
+            })
+            .done(function(response) {
+                var results = response.data;
+
+                for (var i = 0; i < results.length; i++) {
+                    var gifDiv = $('<div class="item">')
+
+                    var rating = results[i].rating;
+
+                    var p = $('<p>').text("Rating: " + rating);
+
+                    var personImage = $('<img>');
+                    personImage.attr('src', results[i].images.fixed_height.url);
+
+                    gifDiv.append(p)
+                    gifDiv.append(personImage)
+
+                    $('#gifsAppearHere').prepend(gifDiv);
+                }
+
+            });
+    });
+</script>
+</body>
+
+</html>
