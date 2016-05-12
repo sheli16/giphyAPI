@@ -1,35 +1,52 @@
 <html>
 
 <head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #777;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
     <title>Show Host search</title>
 </head>
 
 <body>  
-    <div id="buttons">
-       <!-- <button data-person="Donahue">Donahue</button>
-        <button data-person="Ricky lake">Ricky Lake</button>
-        
-        <!-  STEP ONE: Open this file in the browser and click on the buttons. Watch what happened -->
+    <div id="buttons"></div>
+   <div id= "input">
 
-        <!-- STEP TWO: between the dashed lines below
-            * add three more buttons 
-            * add a data-person attribute of famous people you know 
-            * with a quote said by them -->
-
-        <!-- **************************************** -->
-<!--<button data-person="Oprah">Oprah</button>
-        <!- YOUR BUTTONS GO HERE!!!!!! Obviously delete this text after you put them between the dashed lines here.  -->
-<!-- <button data-person="Geraldo">Geraldo</button>
-
-        <!- **************************************** -->
-
-
-        <!-- STEP THREE: open this file in the browser and click on your buttons. If they don't work, then fix your buttons -->
-
-        <!-- STEP FOUR: go over the JavaScript with your partners, and explain the lines of code to each other. -->
-
-    </div>
-     <div id= "input">
      <form id="tvhost-form">
         <label for ="userinput"> Add a new talk show host here</label>
         <input type="text" id="host-input"><br>
@@ -39,8 +56,10 @@
         </form>
 
 <div id="gifsview">
+<p></p>
+<div id="gifimages"></div>
+</div>
 
-<p>rating</p>
 </div>
 
 
@@ -48,7 +67,6 @@
 <script type="text/javascript">
    
 var talkhosts = ['oprah', 'Geraldo Rivera', 'Steve Harvey', 'Jerry Springer'];
-
 
 function renderbuttons(){
 $("#buttons").empty();
@@ -63,9 +81,26 @@ for (var i = 0; i < talkhosts.length;i++){
 //initial buttontext
     a.text(talkhosts[i]);
     $('#buttons').append(a);
-    console.log(a); 
+   
 };
 };
+
+//function renderimages(){
+//$("#gifimages").empty();
+
+//for (var i = 0; i < talkhosts.length;i++){
+//create begining and end tag for button    
+    //var a =$('<img src=>')
+//added a class
+   // a.addClass('Newimage');
+//added data attribute
+   // a.attr('still',talkhosts[i]);
+//initial buttontext
+   // a.text(talkhosts[i]);
+    //$('#gifimages').append(a);
+    //console.log(a); 
+//};
+//};
  renderbuttons();
  
  // This function handles events where add one host button is clicked
@@ -82,15 +117,14 @@ for (var i = 0; i < talkhosts.length;i++){
         var H = $(this).data('person');
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + H + "&api_key=dc6zaTOxFJmzC&limit=10";
 
-// Creates AJAX call for the specific movie being 
-        $.ajax({
-                url: queryURL,method: 'GET'}).done(function(response) {
+// Creates AJAX call for talkshowhost
+        $.ajax({url: queryURL,method: 'GET'}).done(function(response) {
                     console.log(response)
                 var results = response.data;
 
                 for (var i = 0; i < results.length; i++) {
                     var gifDiv = $('<div class="item">');
-console.log(gifDiv)
+console.log(results)
                     var rating = results[i].rating;
 
                     var pOne = $('<p>').text("Rating: " + rating);
@@ -99,11 +133,17 @@ console.log(gifDiv)
                     personImage.attr('src', results[i].images.fixed_height.url);
 
                     gifDiv.append(pOne)
-                    console.log(pOne)
+    console.log(pOne)
                     gifDiv.append(personImage)
                     //console.log(personimage)
                     $('#gifsview').prepend(gifDiv);
 
+
+                }
+        });
+            });
+
+$('img').on('click', function(){
  var state = $(this).attr('data-state'); 
                         if ( state == 'still'){
                 $(this).attr('src', $(this).data('animate'));
@@ -112,12 +152,72 @@ console.log(gifDiv)
                 $(this).attr('src', $(this).data('still'));
                 $(this).attr('data-state', 'still');
             }
-
-                }
-
-            });
     });
+
+
 </script>
 </body>
 
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
+    </div>
+    <div class="col-sm-8 text-left"> 
+      <h1>Welcome</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <hr>
+      <h3>Test</h3>
+      <p>Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-2 sidenav">
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+
+</body>
 </html>
